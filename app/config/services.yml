@@ -2,8 +2,14 @@
 # http://symfony.com/doc/current/book/service_container.html
 parameters:
 #    parameter_name: value
+    app.product_manager.json_file: "%kernel.root_dir%\\Resources\\data\\products.json"
 
 services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+
+    app.product_manager:
+        class: AppBundle\Service\ProductManager
+        arguments: ["%app.product_manager.json_file%"]
+

@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ISIN</th>
+                <th>Aktie</th>
+                <th>Bank</th>
+                <th>Seitwärtsrendite</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+                <tr>
+                    <td>{{ product.ids.isin }}</td>
+                    <td>{{ product.derived.issuer.name }}</td>
+                    <td>{{ product.derived.underlying.name }}</td>
+                    <td>{{ product.figures.sideYieldPa|number_format(3) }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
