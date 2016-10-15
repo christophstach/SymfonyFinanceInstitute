@@ -1,24 +1,56 @@
-{% extends 'base.html.twig' %}
+{% extends 'angular.html.twig' %}
 
-{% block body %}
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>ISIN</th>
-            <th>Aktie</th>
-            <th>Bank</th>
-            <th>Seitwärtsrendite</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for product in products %}
-            <tr>
-                <td>{{ product.ids.isin }}</td>
-                <td>{{ product.derived.issuer.name }}</td>
-                <td>{{ product.derived.underlying.name }}</td>
-                <td>{{ product.figures.sideYieldPa|number_format(3) }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .loader {
+            border: 16px solid #f3f3f3; /* Light grey */
+            border-top: 16px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            animation: spin 2s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        .loader-table {
+            display: table;
+            width: 100%;
+            height: 100%;
+        }
+
+        .loader-wrapper {
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center;
+        }
+    </style>
 {% endblock %}
+
+{% block loader %}
+    <div class="loader-table">
+        <div class="loader-wrapper">
+            <div class="loader"></div>
+            <h1>App wird geladen...</h1>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/angular/inline.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/angular/styles.bundle.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/angular/main.bundle.js') }}"></script>
+{% endblock %}
+

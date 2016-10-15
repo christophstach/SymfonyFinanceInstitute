@@ -2,45 +2,53 @@
 
 namespace AppBundle\Controller;
 
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Service\ProductManager;
 use JMS\Serializer\SerializerBuilder;
 
 class DefaultController extends Controller
 {
     /**
+     * Returns the AngularJS application
      * @Route("/", name="homepage")
      */
-    public function indexAction(Request $request)
+    public function indexAction()
+    {
+        return $this->render(':default:index.html.twig');
+    }
+
+    /**
+     * Returns a HTML-list of finance products
+     * @Route("/products", name="products")
+     */
+    public function productsAction()
     {
         $products = $this
             ->get('app.product_manager')
-            ->fetchProducts();
+            ->getProducts();
 
-        return $this->render(':default:index.html.twig', [
+        return $this->render(':default:products.html.twig', [
             'products' => $products
         ]);
     }
 
     /**
-     * returns a HTML-list of finance products
-     * @Route("/api/products", name="products")
+     * Returns the finance products as JSON array
+     * @Route("/api", name="api")
      */
-    public function productsAction()
+    public function apiAction()
     {
         $response = new JsonResponse();
         $serializer = SerializerBuilder::create()->build();
 
         $products = $this
             ->get('app.product_manager')
-            ->fetchProducts();
+            ->getProducts();
 
         $response->setJson($serializer->serialize($products, 'json'));
 
         return $response;
     }
+
 }

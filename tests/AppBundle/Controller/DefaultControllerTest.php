@@ -18,14 +18,25 @@ class DefaultControllerTest extends WebTestCase
     }
 
     /**
-     * tests to productsAction
+     * tests the productsAction
      */
-    public function testProducts()
+    public function productsIndex()
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/api/products');
-        
+        $crawler = $client->request('GET', '/products');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * tests to apiAction
+     */
+    public function testApi()
+    {
+        $client = static::createClient();
+
+        $crawler = $client->request('GET', '/api');
+
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertTrue(
             $client->getResponse()->headers->contains(

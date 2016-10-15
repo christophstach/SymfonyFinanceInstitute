@@ -17,7 +17,7 @@ class ProductManagerTest extends TestCase
     public function testFetchProducts()
     {
         $productManager = new ProductManager(dirname(__FILE__) . '\..\Resources\data\products.json');
-        $products = $productManager->fetchProducts();
+        $products = $productManager->getProducts();
 
         $this->assertCount(10, $products);
         $this->assertInstanceOf('AppBundle\Entity\Product', $products[0]);
